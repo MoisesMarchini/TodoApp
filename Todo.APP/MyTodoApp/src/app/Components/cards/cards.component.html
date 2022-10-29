@@ -1,0 +1,113 @@
+<div class="container my-4">
+
+  <div class="section-cards">
+
+    <div class="section-cards-header d-flex flex-wrap mb-4">
+      <h1 class="flex-grow-1">Minhas Tarefas</h1>
+      <button class="btn btn-primary pr-4" (click)="newTodoWindowVisibility = true"><i class="fa-solid fa-plus ml-1 mr-3"></i>Nova tarefa</button>
+    </div>
+
+    <hr>
+
+    <div class="section-todo-list">
+
+      <div class="section-title d-flex">
+        <button class="btn btn-outline-transparent mr-2" (click)="todoCollapsed = !todoCollapsed"><i class="{{!todoCollapsed ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down'}}"></i></button>
+        <h2 (click)="todoCollapsed = !todoCollapsed" class="flex-grow-1 cursor-pointer">A fazer</h2>
+        <h2 class="mr-2">{{todoCards.length}}/{{todoCards.length + completedCards.length}}</h2>
+      </div>
+
+      <div id="collapseBasic" [collapse]="todoCollapsed" [isAnimated]="true">
+
+        <div class="d-grid">
+
+          <div class="card flex-grow-1 m-2"  *ngFor="let item of todoCards">
+            <div class="card-body d-block flex-wrap align-items-center">
+              <h5 class="card-title m-0 p-0">{{item.title}}</h5>
+
+              <div class="card-actions align-items-center mt-4 ml-auto d-flex flex-grow-0">
+                <button class="btn btn-success flex-grow-0 d-flex align-items-center">
+
+                  <i class="fa-solid fa-check mr-2"></i>
+                  Finalizar
+
+                </button>
+                <button class="btn btn-primary fixed-size ml-2"><i class="fa-solid fa-pen-to-square"></i></button>
+                <button class="btn btn-danger fixed-size ml-2"><i class="fa-solid fa-trash-can"></i></button>
+              </div>
+            </div>
+          </div>
+
+
+          <div *ngIf="!todoCards.length" class="empty-list w-100 d-flex align-items-center justify-content-center my-2">
+            <h4 class="display-4 text-center">Opa, não tem nada aqui</h4>
+          </div>
+
+        </div>
+
+      </div>
+
+      <hr>
+    </div>
+
+    <div class="section-completed-list">
+
+      <div class="section-title d-flex">
+        <button class="btn btn-outline-transparent mr-2" (click)="completedCollapsed = !completedCollapsed"><i class="{{!completedCollapsed ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down'}}"></i></button>
+        <h2 (click)="completedCollapsed = !completedCollapsed" class="flex-grow-1 cursor-pointer">Finalizadas</h2>
+        <h2 class="mr-2">{{completedCards.length}}</h2>
+      </div>
+      <div id="collapseBasic" [collapse]="completedCollapsed" [isAnimated]="true">
+        <div class="d-grid flex-wrap">
+
+          <div class="card m-2 bg-success text-white" *ngFor="let item of completedCards">
+            <div class="card-body">
+
+              <h5 class="card-title m-0">{{item.title}}</h5>
+
+            </div>
+
+          </div>
+
+          <div *ngIf="!completedCards.length" class="empty-list w-100 d-flex align-items-center justify-content-center my-2">
+            <h4 class="display-4 text-center">Opa, não tem nada aqui</h4>
+          </div>
+
+        </div>
+
+      </div>
+      <hr>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="container-fluid container-popup vh-100 position-fixed d-flex align-items-center justify-content-center"
+  [collapse]="newTodoWindowVisibility"
+  >
+
+  <div class="container-sm popup-window bg-light rounded pb-2">
+
+    <div class="popup-header d-flex px-3 mt-4">
+      <h2 class="popup-title">Nova Tarefa</h2>
+      <button class="btn btn-close ml-auto" (click)="newTodoWindowVisibility = false"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <hr>
+
+    <form class="p-3 m-4">
+
+      <div class="form-group">
+        <label for="todoName">Nome da tarefa</label>
+        <input type="text" class="form-control" id="todoName" placeholder="Ir ao mercado">
+      </div>
+
+
+      <button type="submit" class="btn btn-primary">Adicionar</button>
+      <button class="btn btn-danger ml-2" (click)="newTodoWindowVisibility = false">Cancelar</button>
+    </form>
+
+  </div>
+
+</div>

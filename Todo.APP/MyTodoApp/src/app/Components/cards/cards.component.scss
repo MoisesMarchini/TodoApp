@@ -1,0 +1,40 @@
+.section-cards{
+  min-height: calc(100vh - 6rem - 4rem);
+}
+
+.card-actions .btn .fixed-size{
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.d-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+}
+
+.cursor-pointer{
+  cursor: pointer;
+}
+
+.container-popup{
+  background-color: rgba(black, .5);
+  top: 0;
+  left: 0;
+  z-index: 100;
+  visibility: visible;
+  opacity: 1;
+  transition: .3s;
+}
+
+.popup-window{
+  transition: .3s;
+}
+
+.container-popup[ng-reflect-collapse=false]{
+  visibility: hidden;
+  opacity: 0;
+}
+
+.container-popup[ng-reflect-collapse=false] .popup-window{
+  transform: translateY(-40px);
+}
