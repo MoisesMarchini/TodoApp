@@ -4,7 +4,7 @@
 
     <div class="section-cards-header d-flex flex-wrap mb-4">
       <h1 class="flex-grow-1">Minhas Tarefas</h1>
-      <button class="btn btn-primary pr-4" (click)="newTodoWindowVisibility = true"><i class="fa-solid fa-plus ml-1 mr-3"></i>Nova tarefa</button>
+      <button class="btn btn-primary pr-4" (click)="openNewTodoWindow()"><i class="fa-solid fa-plus ml-1 mr-3"></i>Nova tarefa</button>
     </div>
 
     <hr>
@@ -26,14 +26,14 @@
               <h5 class="card-title m-0 p-0">{{item.title}}</h5>
 
               <div class="card-actions align-items-center mt-4 ml-auto d-flex flex-grow-0">
-                <button class="btn btn-success flex-grow-0 d-flex align-items-center">
+                <button class="btn btn-success flex-grow-0 d-flex align-items-center" (click)="openDoneTodoWindow(item.id)">
 
                   <i class="fa-solid fa-check mr-2"></i>
                   Finalizar
 
                 </button>
-                <button class="btn btn-primary fixed-size ml-2"><i class="fa-solid fa-pen-to-square"></i></button>
-                <button class="btn btn-danger fixed-size ml-2" (click)="deleteTask(item.id)"><i class="fa-solid fa-trash-can"></i></button>
+                <button class="btn btn-primary fixed-size ml-2" (click)="openEditTodoWindow(item.id)"><i class="fa-solid fa-pen-to-square"></i></button>
+                <button class="btn btn-danger fixed-size ml-2" (click)="openDeleteTodoWindow(item.id)"><i class="fa-solid fa-trash-can"></i></button>
               </div>
             </div>
           </div>
@@ -60,10 +60,11 @@
       <div id="collapseBasic" [collapse]="completedCollapsed" [isAnimated]="true">
         <div class="d-grid flex-wrap">
 
-          <div class="card m-2 bg-success text-white" *ngFor="let item of completedCards">
+          <div class="card m-2 border-success" *ngFor="let item of completedCards">
             <div class="card-body">
 
               <h5 class="card-title m-0">{{item.title}}</h5>
+              <button class="btn btn-danger fixed-size mt-3" (click)="openDeleteTodoWindow(item.id)"><i class="fa-solid fa-trash-can"></i></button>
 
             </div>
 
@@ -90,23 +91,43 @@
 
   <div class="container-sm popup-window bg-light rounded pb-2">
 
-    <div class="popup-header d-flex px-3 mt-4">
-      <h2 class="popup-title">Nova Tarefa</h2>
-      <button class="btn btn-close ml-auto" (click)="newTodoWindowVisibility = false"><i class="fa-solid fa-xmark"></i></button>
-    </div>
-    <hr>
-
-    <form class="p-3 m-4">
-
-      <div class="form-group">
-        <label for="todoName">Nome da tarefa</label>
-        <input type="text" class="form-control" id="todoName" placeholder="Ir ao mercado">
+    <div class="window-post-put">
+      <div class="popup-header d-flex px-3 mt-4">
+        <h2 class="popup-title">{{todoWindow.headerTitle}}</h2>
+        <button class="btn btn-close ml-auto" (click)="closeTodoWindow()"><i class="fa-solid fa-xmark"></i></button>
       </div>
+      <hr>
+      <form [formGroup]="newTodoForm" (ngSubmit)="todoWindow.onSubmit()" class="p-3 m-4">
+
+        <div class="form-group"
+        *ngIf="todoWindow.showInput">
+          <label for="title">Nome da tarefa</label>
+          <input id="title" formControlName="title" type="text" [required]="true" class="form-control" placeholder="Ex.: Ir ao mercado">
+        </div>
 
 
-      <button class="btn btn-primary" (click)="newTask()">Adicionar</button>
-      <button class="btn btn-danger ml-2" (click)="newTodoWindowVisibility = false">Cancelar</button>
-    </form>
+        <button [classList]="!todoWindow.showInput? 'btn mr-2 mb-2 btn-danger' : 'btn mr-2 mb-2 btn-primary'" type="submit">{{todoWindow.submitText}}</button>
+        <button [classList]="todoWindow.showInput? 'btn mb-2 btn-danger' : 'btn mb-2 btn-primary'" type="reset" (click)="closeTodoWindow()">Cancelar</button>
+      </form>
+    </div>
+
+    <!-- <div class="window-delete">
+      <div class="popup-header d-flex px-3 mt-4">
+        <h2 class="popup-title">Deletar Tarefa</h2>
+        <button class="btn btn-close ml-auto" (click)="closeTodoWindow()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <hr>
+      <form [formGroup]="newTodoForm" (ngSubmit)="onSubmitNewTask()" class="p-3 m-4">
+
+        <div class="form-group">
+          <label for="title">Nome da tarefa</label>
+        </div>
+
+
+        <button class="btn btn-primary" type="submit">Adicionar</button>
+        <button class="btn btn-danger ml-2" (click)="closeTodoWindow()">Cancelar</button>
+      </form>
+    </div> -->
 
   </div>
 

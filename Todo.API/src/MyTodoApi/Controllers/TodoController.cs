@@ -83,15 +83,23 @@ namespace MyTodoApi
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, Todo todo)
         {
+            var badRequestNullResponse = new { Resposta = "Tarefa não encontrada" };
+            var badRequestResponse = new { Resposta = "Erro ao atualizar tarefa" };
             try
             {
-                var oldTodo = await _context.Todos.FirstOrDefaultAsync(p => p.Id == id);
 
-                oldTodo = todo;
+                if (todo == null)
+                {
+                    return BadRequest(badRequestNullResponse);
+                }
 
-                await _context.SaveChangesAsync();
+                todo.Id = id;
 
-                return Ok(todo);
+                _context.Todos.Update(todo);
+
+                return (await _context.SaveChangesAsync()) > 0 ?
+                    Ok(todo) :
+                    BadRequest(badRequestResponse);
             }
             catch (Exception ex)
             {
@@ -103,14 +111,23 @@ namespace MyTodoApi
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteById(int id)
         {
+            var okResponse = new { Resposta = "Tarefa removida com sucesso" };
+            var badRequestResponse = new { Resposta = "Erro ao deletar tarefa" };
+            var badRequestNullResponse = new { Resposta = "Tarefa não encontrada" };
             try
             {
-                var todo = await _context.Todos.FirstOrDefaultAsync(p => p.Id == id);
+                Todo todo = await _context.Todos.FirstOrDefaultAsync(p => p.Id == id);
+
+                if (todo == null)
+                {
+                    return BadRequest(badRequestNullResponse);
+                }
 
                 _context.Remove(todo);
-                await _context.SaveChangesAsync();
 
-                return Ok("Tarefa deletada");
+                return (await _context.SaveChangesAsync()) > 0 ?
+                    Ok(okResponse) :
+                    BadRequest(badRequestResponse);
             }
             catch (Exception ex)
             {
@@ -121,14 +138,23 @@ namespace MyTodoApi
         [HttpDelete]
         public async Task<IActionResult> DeleteAllFromUsername(string userName)
         {
+            var okResponse = new { Resposta = "Tarefas removidas com sucesso" };
+            var badRequestResponse = new { Resposta = "Erro ao deletar tarefa" };
+            var badRequestNullResponse = new { Resposta = "Tarefas não encontradas" };
             try
             {
                 var todo = _context.Todos.Where(p => p.User == userName);
 
-                _context.RemoveRange(todo);
-                await _context.SaveChangesAsync();
+                if (todo == null)
+                {
+                    return BadRequest(badRequestNullResponse);
+                }
 
-                return Ok("Tarefa deletada");
+                _context.RemoveRange(todo);
+
+                return (await _context.SaveChangesAsync()) > 0 ?
+                    Ok(okResponse) :
+                    BadRequest(badRequestResponse);
             }
             catch (Exception ex)
             {

@@ -1,7 +1,7 @@
-<nav class="navbar navbar-expand-lg bg-primary navbar-dark w-100">
+<nav class="navbar navbar-expand-sm bg-primary navbar-dark w-100">
   <div class="container">
     <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler ml-auto"
+    <button class="navbar-toggler p-0 pl-1 ml-auto"
       type="button"
       data-toggle="collapse"
       data-target="#navbarSupportedContent"
@@ -10,7 +10,7 @@
       aria-label="Toggle navigation"
       (click)="isCollapsed = !isCollapsed">
 
-      <span class="navbar-toggler-icon d-flex align-items-center justify-content-center"><i class="fa-solid fa-bars"></i></span>
+      <span class="navbar-toggler-icon w-auto d-flex align-items-center justify-content-center"><i class="fa-solid fa-bars"></i></span>
     </button>
 
     <div class="collapse navbar-collapse" [collapse]="!isCollapsed" [isAnimated]="true" id="navbarSupportedContent">
