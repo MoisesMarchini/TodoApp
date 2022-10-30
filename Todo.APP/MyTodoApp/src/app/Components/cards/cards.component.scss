@@ -2,6 +2,10 @@
   min-height: calc(100vh - 6rem - 4rem);
 }
 
+.card-title{
+  text-transform: capitalize;
+}
+
 .card-actions .btn .fixed-size{
   width: 2.5rem;
   height: 2.5rem;
