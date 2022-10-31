@@ -34,11 +34,11 @@
   transition: .3s;
 }
 
-.container-popup[ng-reflect-collapse=false]{
+.container-popup.hidden{
   visibility: hidden;
   opacity: 0;
 }
 
-.container-popup[ng-reflect-collapse=false] .popup-window{
+.container-popup.hidden .popup-window{
   transform: translateY(-40px);
 }

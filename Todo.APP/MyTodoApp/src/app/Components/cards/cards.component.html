@@ -86,7 +86,7 @@
 </div>
 
 <div class="container-fluid container-popup vh-100 position-fixed d-flex align-items-center justify-content-center"
-  [collapse]="newTodoWindowVisibility"
+    [ngClass]="!newTodoWindowVisibility? 'hidden': ''"
   >
 
   <div class="container-sm popup-window bg-light rounded pb-2">

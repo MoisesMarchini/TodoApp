@@ -10,6 +10,8 @@ import { AppRoutingModule } from 'src/app/app-routing.module';
 })
 export class CardsComponent implements OnInit {
 
+  serverConnectionString: string = "https://localhost:7155/api/Todo/"
+
   allCards: any = [];
   todoCards: any = [];
   completedCards: any = [];
@@ -77,7 +79,7 @@ export class CardsComponent implements OnInit {
   }
 
   closeTodoWindow() {
-    this.newTodoWindowVisibility = false;
+    this.newTodoWindowVisibility = !this.newTodoWindowVisibility;
     this.resetTodoForm();
   }
 
@@ -109,7 +111,7 @@ export class CardsComponent implements OnInit {
 
   getAllTodos(): void {
     this.allCards = [];
-    this.http.get('https://localhost:7155/api/Todo').subscribe(
+    this.http.get(this.serverConnectionString).subscribe(
       response => {
         this.allCards = response;
 
@@ -141,7 +143,7 @@ export class CardsComponent implements OnInit {
     if (!this.newTodoForm.valid)
       return;
 
-    this.http.post('https://localhost:7155/api/Todo', this.newTodoForm.value).subscribe(
+    this.http.post(this.serverConnectionString, this.newTodoForm.value).subscribe(
       response => {
         console.log(response);
         this.getAllTodos();
@@ -156,7 +158,7 @@ export class CardsComponent implements OnInit {
     if (!this.newTodoForm.valid)
       return;
 
-    this.http.put('https://localhost:7155/api/Todo/'+this.currentTodoId, this.newTodoForm.value).subscribe(
+    this.http.put(this.serverConnectionString+this.currentTodoId, this.newTodoForm.value).subscribe(
       response => {
         console.log(response);
         this.getAllTodos();
@@ -179,7 +181,7 @@ export class CardsComponent implements OnInit {
 
     updatedTask.done = true;
 
-    this.http.put('https://localhost:7155/api/Todo/'+this.currentTodoId, updatedTask).subscribe(
+    this.http.put(this.serverConnectionString+this.currentTodoId, updatedTask).subscribe(
       response => {
         console.log(response);
         this.getAllTodos();
@@ -192,7 +194,7 @@ export class CardsComponent implements OnInit {
   onSubmitDeleteTask(): void {
     if (this.currentTodoId == 0)
       return;
-    this.http.delete('https://localhost:7155/api/Todo/'+this.currentTodoId, {
+    this.http.delete(this.serverConnectionString+this.currentTodoId, {
     }).subscribe(
       response => {
         console.log(response);
