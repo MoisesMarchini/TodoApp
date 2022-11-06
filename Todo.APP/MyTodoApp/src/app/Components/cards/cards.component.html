@@ -9,82 +9,17 @@
 
     <hr>
 
-    <div class="section-todo-list">
-
-      <div class="section-title d-flex">
-        <button class="btn btn-outline-transparent mr-2" (click)="todoCollapsed = !todoCollapsed"><i class="{{!todoCollapsed ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down'}}"></i></button>
-        <h2 (click)="todoCollapsed = !todoCollapsed" class="flex-grow-1 cursor-pointer">A fazer</h2>
-        <h2 class="mr-2">{{todoCards.length}}/{{todoCards.length + completedCards.length}}</h2>
-      </div>
-
-      <div id="collapseBasic" [collapse]="todoCollapsed" [isAnimated]="true">
-
-        <div class="d-grid">
-
-          <div class="card flex-grow-1 m-2"  *ngFor="let item of todoCards">
-            <div class="card-body d-block flex-wrap align-items-center">
-              <h5 class="card-title m-0 p-0">{{item.title}}</h5>
-
-              <div class="card-actions align-items-center mt-4 ml-auto d-flex flex-grow-0">
-                <button class="btn btn-success flex-grow-0 d-flex align-items-center" (click)="openDoneTodoWindow(item.id)">
-
-                  <i class="fa-solid fa-check mr-2"></i>
-                  Finalizar
-
-                </button>
-                <button class="btn btn-primary fixed-size ml-2" (click)="openEditTodoWindow(item.id)"><i class="fa-solid fa-pen-to-square"></i></button>
-                <button class="btn btn-danger fixed-size ml-2" (click)="openDeleteTodoWindow(item.id)"><i class="fa-solid fa-trash-can"></i></button>
-              </div>
-            </div>
-          </div>
-
-
-          <div *ngIf="!todoCards.length" class="empty-list w-100 d-flex align-items-center justify-content-center my-2">
-            <h4 class="display-4 text-center">Opa, não tem nada aqui</h4>
-          </div>
-
-        </div>
-
-      </div>
-
-      <hr>
-    </div>
-
-    <div class="section-completed-list">
-
-      <div class="section-title d-flex">
-        <button class="btn btn-outline-transparent mr-2" (click)="completedCollapsed = !completedCollapsed"><i class="{{!completedCollapsed ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down'}}"></i></button>
-        <h2 (click)="completedCollapsed = !completedCollapsed" class="flex-grow-1 cursor-pointer">Finalizadas</h2>
-        <h2 class="mr-2">{{completedCards.length}}</h2>
-      </div>
-      <div id="collapseBasic" [collapse]="completedCollapsed" [isAnimated]="true">
-        <div class="d-grid flex-wrap">
-
-          <div class="card m-2 border-success" *ngFor="let item of completedCards">
-            <div class="card-body">
-
-              <h5 class="card-title m-0">{{item.title}}</h5>
-              <button class="btn btn-danger fixed-size mt-3" (click)="openDeleteTodoWindow(item.id)"><i class="fa-solid fa-trash-can"></i></button>
-
-            </div>
-
-          </div>
-
-          <div *ngIf="!completedCards.length" class="empty-list w-100 d-flex align-items-center justify-content-center my-2">
-            <h4 class="display-4 text-center">Opa, não tem nada aqui</h4>
-          </div>
-
-        </div>
-
-      </div>
-      <hr>
-
-    </div>
+    <app-single-card *ngFor="let item of allCards"
+    [_cardItem] = "item"
+    (deleteFunction)="openDeleteTodoWindow(item.id)"
+    (editFunction)="openEditTodoWindow(item.id)"
+    (doneFunction)="openDoneTodoWindow(item.id)"
+    ></app-single-card>
 
   </div>
 
 </div>
-
+<!-- <app-toastr-popup [popupText]="lastRequestResponse.response" [okResponse]="lastRequestResponse.okRequest" [show]="lastRequestResponse.response != ''"></app-toastr-popup> -->
 <div class="container-fluid container-popup vh-100 position-fixed d-flex align-items-center justify-content-center"
     [ngClass]="!newTodoWindowVisibility? 'hidden': ''"
   >
@@ -110,24 +45,6 @@
         <button [classList]="todoWindow.showInput? 'btn mb-2 btn-danger' : 'btn mb-2 btn-primary'" type="reset" (click)="closeTodoWindow()">Cancelar</button>
       </form>
     </div>
-
-    <!-- <div class="window-delete">
-      <div class="popup-header d-flex px-3 mt-4">
-        <h2 class="popup-title">Deletar Tarefa</h2>
-        <button class="btn btn-close ml-auto" (click)="closeTodoWindow()"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      <hr>
-      <form [formGroup]="newTodoForm" (ngSubmit)="onSubmitNewTask()" class="p-3 m-4">
-
-        <div class="form-group">
-          <label for="title">Nome da tarefa</label>
-        </div>
-
-
-        <button class="btn btn-primary" type="submit">Adicionar</button>
-        <button class="btn btn-danger ml-2" (click)="closeTodoWindow()">Cancelar</button>
-      </form>
-    </div> -->
 
   </div>
 

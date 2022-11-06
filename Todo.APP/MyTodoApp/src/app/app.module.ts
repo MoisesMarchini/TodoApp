@@ -10,19 +10,25 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { NavbarComponent } from './Components/navbar/navbar.component';
 import { FooterComponent } from './Components/footer/footer.component';
-
+import { LoginComponent } from './Components/login/login.component';
+import { NewUserComponent } from './Components/new-user/new-user.component';
 import { CardsComponent } from './Components/cards/cards.component';
+import { SingleCardComponent } from './Components/cards/single-card/single-card.component';
 
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     FooterComponent,
-    CardsComponent
+    CardsComponent,
+    SingleCardComponent,
+    LoginComponent,
+    NewUserComponent
   ],
   imports: [
     BrowserModule,
@@ -30,6 +36,7 @@ import { AccordionModule } from 'ngx-bootstrap/accordion';
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot(),
     AccordionModule.forRoot(),
     CarouselModule.forRoot(),
     CollapseModule.forRoot()

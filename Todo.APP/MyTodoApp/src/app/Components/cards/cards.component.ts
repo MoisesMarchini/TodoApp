@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AppRoutingModule } from 'src/app/app-routing.module';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-cards',
@@ -13,10 +14,22 @@ export class CardsComponent implements OnInit {
   serverConnectionString: string = "https://localhost:7155/api/Todo/"
 
   allCards: any = [];
-  todoCards: any = [];
-  completedCards: any = [];
 
-  currentTodoId: number = 0;
+  todoCards: {
+    id: number,
+    title: string,
+    done: boolean,
+    user: string
+  }[] = [];
+
+  completedCards: {
+    id: number,
+    title: string,
+    done: boolean,
+    user: string
+  }[] = [];
+
+  public currentTodoId: number = 0;
 
   newTodoForm = this.formBuilder.group({
     title: '',
@@ -59,7 +72,8 @@ export class CardsComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
@@ -146,10 +160,14 @@ export class CardsComponent implements OnInit {
     this.http.post(this.serverConnectionString, this.newTodoForm.value).subscribe(
       response => {
         console.log(response);
+        this.changeLastRequest(response, true);
         this.getAllTodos();
         this.resetTodoForm();
       },
-      error => console.log(error)
+      error => {
+        console.log(error);
+        this.changeLastRequest(error, false);
+      }
     );
   }
 
@@ -161,10 +179,14 @@ export class CardsComponent implements OnInit {
     this.http.put(this.serverConnectionString+this.currentTodoId, this.newTodoForm.value).subscribe(
       response => {
         console.log(response);
+        this.changeLastRequest(response, true);
         this.getAllTodos();
         this.resetTodoForm();
       },
-      error => console.log(error)
+      error => {
+        console.log(error);
+        this.changeLastRequest(error, false);
+      }
     );
   }
 
@@ -179,15 +201,17 @@ export class CardsComponent implements OnInit {
       }
     ) => singleTodo.id == this.currentTodoId)[0];
 
-    updatedTask.done = true;
+    updatedTask.done = !updatedTask.done;
 
-    this.http.put(this.serverConnectionString+this.currentTodoId, updatedTask).subscribe(
+    this.http.put(this.serverConnectionString + this.currentTodoId, updatedTask).subscribe(
       response => {
         console.log(response);
         this.getAllTodos();
         this.resetTodoForm();
       },
-      error => console.log(error)
+      error => {
+        console.log(error);
+      }
     );
   }
 
@@ -198,13 +222,25 @@ export class CardsComponent implements OnInit {
     }).subscribe(
       response => {
         console.log(response);
+        this.changeLastRequest(response, true);
         this.getAllTodos();
         this.currentTodoId == 0;
       },
       error => {
         console.log(error);
+        this.changeLastRequest(error, false);
       }
     );
+  }
+
+  changeLastRequest(response: object, okRequest: boolean) {
+    let resSTR = JSON.stringify(response);
+    let resJSON = JSON.parse(resSTR);
+
+    if (okRequest)
+      this.toastr.success(resJSON.resposta);
+    else
+      this.toastr.error(resJSON.resposta);
   }
 
 }

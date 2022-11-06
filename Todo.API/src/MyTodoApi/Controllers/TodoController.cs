@@ -31,7 +31,8 @@ namespace MyTodoApi
                 IQueryable<Todo> query = _context.Todos
                     .AsNoTracking();
 
-                query = query.OrderBy(e => e.Id);
+                query = query.OrderBy(e => e.Done)
+                             .ThenBy(e => e.Id);
 
                 return Ok(await query.ToArrayAsync());
             }
@@ -42,16 +43,17 @@ namespace MyTodoApi
             }
         }
 
-        [HttpGet("byUser/")]
-        public async Task<IActionResult> GetAllByUser(string userName)
+        [HttpGet("fromUser/")]
+        public async Task<IActionResult> GetAllFromUser(string userName)
         {
             try
             {
                 IQueryable<Todo> query = _context.Todos
                     .AsNoTracking();
 
-                query = query.OrderBy(e => e.Id)
-                             .Where(p => p.User == userName);
+                query = query.Where(p => p.User == userName)
+                             .OrderBy(e => e.Done)
+                             .ThenBy(e => e.Id);
 
                 return Ok(await query.ToArrayAsync());
             }
@@ -66,12 +68,15 @@ namespace MyTodoApi
         [HttpPost]
         public async Task<IActionResult> Create(Todo todo)
         {
+            var okResponse = new { Resposta = "Tarefa adicionada com sucesso" };
+            var badRequestResponse = new { Resposta = "Erro ao adicionar tarefa" };
             try
             {
                 // todo.User = User.Identity.Name;
                 _context.Add(todo);
-                await _context.SaveChangesAsync();
-                return Ok(todo);
+                return (await _context.SaveChangesAsync()) > 0 ?
+                    Ok(okResponse) :
+                    BadRequest(badRequestResponse);
             }
             catch (Exception ex)
             {
@@ -83,6 +88,7 @@ namespace MyTodoApi
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, Todo todo)
         {
+            var okResponse = new { Resposta = "Tarefa atualizada com sucesso" };
             var badRequestNullResponse = new { Resposta = "Tarefa não encontrada" };
             var badRequestResponse = new { Resposta = "Erro ao atualizar tarefa" };
             try
@@ -98,7 +104,7 @@ namespace MyTodoApi
                 _context.Todos.Update(todo);
 
                 return (await _context.SaveChangesAsync()) > 0 ?
-                    Ok(todo) :
+                    Ok(okResponse) :
                     BadRequest(badRequestResponse);
             }
             catch (Exception ex)
@@ -135,7 +141,7 @@ namespace MyTodoApi
                     $"Erro ao tentar atualizar tarefa. Erro: {ex.Message}");
             }
         }
-        [HttpDelete]
+        [HttpDelete("fromUser/")]
         public async Task<IActionResult> DeleteAllFromUsername(string userName)
         {
             var okResponse = new { Resposta = "Tarefas removidas com sucesso" };

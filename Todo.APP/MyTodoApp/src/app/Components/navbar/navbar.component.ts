@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, Event, NavigationStart, NavigationEnd, NavigationError} from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -16,9 +17,22 @@ export class NavbarComponent implements OnInit {
   ]
 
   isCollapsed = false;
-  constructor() { }
-
   ngOnInit() {
+  }
+
+  currentRoute: string;
+  constructor(private router: Router) {
+    this.currentRoute = "Demo";
+    this.router.events.subscribe((event: Event) => {
+
+        if (event instanceof NavigationEnd) {
+            this.currentRoute = event.url;
+              console.log(this.currentRoute);
+        }
+
+
+    });
+
   }
 
 }

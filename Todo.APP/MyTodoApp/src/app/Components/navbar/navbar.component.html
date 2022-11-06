@@ -15,11 +15,14 @@
 
     <div class="collapse navbar-collapse" [collapse]="!isCollapsed" [isAnimated]="true" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Tarefas <span class="sr-only">(current)</span></a>
+        <li class="nav-item" [ngClass]="currentRoute == '/my-todos'? 'active':''">
+          <a class="nav-link" routerLink="my-todos">Tarefas</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Sair</a>
+        <li class="nav-item" [ngClass]="currentRoute == '/'? 'active':''" >
+          <a class="nav-link" routerLink="">Login</a>
+        </li>
+        <li class="nav-item" [ngClass]="currentRoute == '/new-user'? 'active':''">
+          <a class="nav-link" routerLink="new-user">Nova conta</a>
         </li>
       </ul>
     </div>
