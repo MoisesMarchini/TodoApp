@@ -6,7 +6,8 @@ import { NewUserComponent } from './Components/new-user/new-user.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent},
-  { path: 'new-user', component: NewUserComponent},
+  { path: 'login', component: LoginComponent},
+  { path: 'register', component: NewUserComponent},
   { path: 'my-todos', component: CardsComponent},
 ];
 

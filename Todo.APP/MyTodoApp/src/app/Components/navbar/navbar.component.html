@@ -18,11 +18,11 @@
         <li class="nav-item" [ngClass]="currentRoute == '/my-todos'? 'active':''">
           <a class="nav-link" routerLink="my-todos">Tarefas</a>
         </li>
-        <li class="nav-item" [ngClass]="currentRoute == '/'? 'active':''" >
-          <a class="nav-link" routerLink="">Login</a>
+        <li class="nav-item" [ngClass]="currentRoute == '/login'? 'active':''" >
+          <a class="nav-link" routerLink="login">Login</a>
         </li>
-        <li class="nav-item" [ngClass]="currentRoute == '/new-user'? 'active':''">
-          <a class="nav-link" routerLink="new-user">Nova conta</a>
+        <li class="nav-item" [ngClass]="currentRoute == '/register'? 'active':''">
+          <a class="nav-link" routerLink="register">Registrar</a>
         </li>
       </ul>
     </div>

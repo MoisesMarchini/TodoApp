@@ -25,3 +25,16 @@
 .fullvh{
   min-height: calc(100vh - 6rem - 4rem);
 }
+.section-img-area img{
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width:992px) {
+  .mw-sm{
+    min-width: 540px;
+  }
+  .show-lg{
+    display: none;
+  }
+}
