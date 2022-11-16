@@ -1,0 +1,12 @@
+
+<div class="card m-2 rounded-pill" [ngClass]="_cardItem.done?'done' : ''" >
+  <div class="card-body p-0">
+
+    <input type="checkbox" id="card-{{_cardItem.id}}" class="input-checkbox d-none" [checked]="_cardItem.done">
+    <label for="card-{{_cardItem.id}}" class="done-checkbox text-center m-0 ml-2 flex-shrink-0" (click)="doneFunction.emit()"><i class="fa-solid fa-check"></i></label>
+    <button class="text-left bg-transparent p-0 card-title m-0 flex-grow-1" (click)="editFunction.emit()">{{_cardItem.title}}</button>
+    <button class="btn btn-danger rounded-circle btn-delete m-0  flex-shrink-0" (click)="deleteFunction.emit()"><i class="fa-solid fa-trash-can"></i></button>
+
+
+  </div>
+</div>

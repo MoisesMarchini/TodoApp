@@ -1,0 +1,56 @@
+.card{
+  overflow: hidden;
+  border: none;
+  background: linear-gradient(to right, rgba(black, 0.25), transparent 130%);
+}
+
+.card.done{
+  background: linear-gradient(to right, rgba(40, 167, 69, 0.5), transparent 130%);
+}
+
+.card-body{
+  border-radius: inherit;
+  margin: 1px;
+  background-color: white;
+  gap: .5rem;
+  padding: .5rem;
+  align-items: center;
+  display: flex;
+}
+
+.card-title{
+  border: none;
+  // text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow-y: hidden;
+  overflow-x: auto;
+  height: 38px;
+}
+
+.done-checkbox{
+  width: 1.25rem;
+  height: 1.25rem;
+  line-height: 1.25rem;
+  border: 1px solid rgba(black, 0.25);
+  border-radius: 50%;
+  font-size: .8rem;
+  cursor: pointer;
+}
+
+.input-checkbox:checked~.done-checkbox{
+  border-color: #28a745;
+  background-color: #28a745;
+}
+
+.done-checkbox i{
+  visibility: hidden;
+}
+
+.input-checkbox:checked~.done-checkbox i{
+  color: white;
+  visibility: visible;
+}
+
+.btn-delete{
+  border-radius: 0;
+}
